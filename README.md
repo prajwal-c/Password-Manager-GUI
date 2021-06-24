@@ -17,7 +17,7 @@ This application is basically built with **tkinter** and **turtle** graphics, **
 - The GUI has **search button** which helps the users to search through the **data.json** and **key.json** to find the previously saved credentials.
 - The GUI also has a **generate password button** which helps the users to generate a **Strong Password** for the websites.  
 - The GUI Encrypt and Decrypt passwords for maintaining security of passwords.
-- login details --> **username - admin** and **password - admin123**. 
+- For login details of **Password Manager** refer **.env** file.
 
 
 ## Author - **Prajwal C**
