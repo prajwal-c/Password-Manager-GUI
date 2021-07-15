@@ -62,25 +62,25 @@ def save_info():
     email = email_username_entry.get()
     password = password_entry.get()
     
-    key = Fernet.generate_key()
-    fernet = Fernet(key)
-    encPassword = fernet.encrypt(password.encode())
-    
-    new_data = {
-        website: {
-            "email": email,
-            "Encrypted Password": encPassword.decode()
-        }
-    }
-    new_key = {
-        website: {
-            "key": key.decode()
-        }
-    }
-
     if len(website) == 0 or len(password) == 0 or len(email) == 0: 
         messagebox.showerror(title="Oops", message="PLease don't leave any fields empty!!!")
     else:
+        key = Fernet.generate_key()
+        fernet = Fernet(key)
+        encPassword = fernet.encrypt(password.encode())
+
+        new_data = {
+            website: {
+                "email": email,
+                "Encrypted Password": encPassword.decode()
+            }
+        }
+        new_key = {
+            website: {
+                "key": key.decode()
+            }
+        }
+
         try:
             with open("data.json", mode="r") as data_file:
                 #Reading old Data
