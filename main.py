@@ -16,26 +16,29 @@ l = ('Consolas', 13)
 
 # ---------------------------- SEARCH DETAILS ------------------------------------ #
 def search_info():
-    req_website = website_entry.get().title()
-    try:
-        with open("data.json", mode="r") as data_file:
-            data = json.load(data_file)
-        with open("key.json", mode="r") as key_file:
-            key_data = json.load(key_file)
-        req_email = data[req_website]["email"]
-        req_encryp_password = data[req_website]["Encrypted Password"].encode("utf-8")
-        req_key = key_data[req_website]["key"].encode("utf-8")
-      
-        fernet = Fernet(req_key)
-        decrypted_password = fernet.decrypt(req_encryp_password).decode()
-
-    except FileNotFoundError:
-        messagebox.showerror(title="Error", message="No Data File Found.") 
-    except KeyError:
-        messagebox.showerror(title="Error", message=f"No Details for {req_website} exists.")
+    if website_entry.get().title() == "":
+        messagebox.showerror(title="Error", message="Website Entry Field is Empty!!!")
     else:
-        website_entry.delete(0, END)         
-        messagebox.showinfo(title=req_website, message=f"Email: {req_email} \nDecrypted Password: {decrypted_password}") 
+        req_website = website_entry.get().title()
+        try:
+            with open("data.json", mode="r") as data_file:
+                data = json.load(data_file)
+            with open("key.json", mode="r") as key_file:
+                key_data = json.load(key_file)
+            req_email = data[req_website]["email"]
+            req_encryp_password = data[req_website]["Encrypted Password"].encode("utf-8")
+            req_key = key_data[req_website]["key"].encode("utf-8")
+
+            fernet = Fernet(req_key)
+            decrypted_password = fernet.decrypt(req_encryp_password).decode()
+
+        except FileNotFoundError:
+            messagebox.showerror(title="Error", message="No Data File Found.") 
+        except KeyError:
+            messagebox.showerror(title="Error", message=f"No Details for {req_website} exists.")
+        else:
+            website_entry.delete(0, END)         
+            messagebox.showinfo(title=req_website, message=f"Email: {req_email} \nDecrypted Password: {decrypted_password}") 
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
@@ -127,29 +130,30 @@ def edit_info():
     screen = turtle.Screen()
     screen.bye()
     edit_website = screen.textinput(title="Edit Details", prompt="Enter the Website").title()
-    try:
-        with open("data.json", mode="r") as data_file:
-            edit_data = json.load(data_file)
-        with open("key.json", mode="r") as key_file:
-            key_edit_data = json.load(key_file)
-        edit_email = edit_data[edit_website]["email"]
-        edit_password_enc = edit_data[edit_website]["Encrypted Password"].encode("utf-8")
-        edit_key = key_edit_data[edit_website]["key"].encode("utf-8")
-    except FileNotFoundError:
-        messagebox.showerror(title="Error", message="No Data File Found to Edit.") 
-    except KeyError:
-        messagebox.showerror(title="Error", message=f"No Details for {edit_website} exists to Edit.")
-    else:
-        website_entry.delete(0, END)
-        email_username_entry.delete(0, END)
-        password_entry.delete(0, END)
+    if edit_website != "":
+        try:
+            with open("data.json", mode="r") as data_file:
+                edit_data = json.load(data_file)
+            with open("key.json", mode="r") as key_file:
+                key_edit_data = json.load(key_file)
+            edit_email = edit_data[edit_website]["email"]
+            edit_password_enc = edit_data[edit_website]["Encrypted Password"].encode("utf-8")
+            edit_key = key_edit_data[edit_website]["key"].encode("utf-8")
+        except FileNotFoundError:
+            messagebox.showerror(title="Error", message="No Data File Found to Edit.") 
+        except KeyError:
+            messagebox.showerror(title="Error", message=f"No Details for {edit_website} exists to Edit.")
+        else:
+            website_entry.delete(0, END)
+            email_username_entry.delete(0, END)
+            password_entry.delete(0, END)
 
-        fernet = Fernet(edit_key)
-        edit_password_dec = fernet.decrypt(edit_password_enc).decode()
+            fernet = Fernet(edit_key)
+            edit_password_dec = fernet.decrypt(edit_password_enc).decode()
 
-        website_entry.insert(0, edit_website)
-        email_username_entry.insert(0, edit_email)
-        password_entry.insert(0, edit_password_dec) 
+            website_entry.insert(0, edit_website)
+            email_username_entry.insert(0, edit_email)
+            password_entry.insert(0, edit_password_dec) 
 
     
 # ---------------------------- DELETE DETAILS ------------------------------- #
@@ -157,28 +161,29 @@ def delete_info():
     screen = turtle.Screen()
     screen.bye()
     delete_website = screen.textinput(title="Delete Details", prompt="Enter the Website").title()
-    try:
-        with open("data.json", mode="r") as data_file:
-            delete_data = json.load(data_file)
-        with open("key.json", mode="r") as key_file:
-            key_delete_data = json.load(key_file)
+    if delete_website != "":
+        try:
+            with open("data.json", mode="r") as data_file:
+                delete_data = json.load(data_file)
+            with open("key.json", mode="r") as key_file:
+                key_delete_data = json.load(key_file)
 
-        del delete_data[delete_website]
-        del key_delete_data[delete_website]
-    except FileNotFoundError:
-        messagebox.showerror(title="Error", message="No Data File Found to Delete.")
-    except KeyError:
-        messagebox.showerror(title="Error", message=f"No Details for {delete_website} exists to Delete.")
-    else:
-        with open("data.json", mode="w") as data_file:
-            #Saving updated Data in data file after deletion
-            json.dump(delete_data, data_file, indent=4)
-        
-        with open("key.json", mode="w") as key_file:
-            #Saving updated Data in key file after deletion
-            json.dump(key_delete_data, key_file, indent=4)
-    
-        messagebox.showinfo(title="Success", message=f"Details for {delete_website} deleted successfully!!!")
+            del delete_data[delete_website]
+            del key_delete_data[delete_website]
+        except FileNotFoundError:
+            messagebox.showerror(title="Error", message="No Data File Found to Delete.")
+        except KeyError:
+            messagebox.showerror(title="Error", message=f"No Details for {delete_website} exists to Delete.")
+        else:
+            with open("data.json", mode="w") as data_file:
+                #Saving updated Data in data file after deletion
+                json.dump(delete_data, data_file, indent=4)
+
+            with open("key.json", mode="w") as key_file:
+                #Saving updated Data in key file after deletion
+                json.dump(key_delete_data, key_file, indent=4)
+
+            messagebox.showinfo(title="Success", message=f"Details for {delete_website} deleted successfully!!!")
         
 
 
