@@ -1,5 +1,3 @@
-import os
-from dotenv import load_dotenv
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk, Image
@@ -7,7 +5,6 @@ from PIL import ImageTk, Image
 ecolor = 'white'
 lcolor = '#994422'
 
-load_dotenv()      # take environment variables from .env
 
 class LoginPasswordManager:
     def __init__(self):
