@@ -79,7 +79,7 @@ class LoginPasswordManager:
     
     #Login check authentication
     def login_check(self):
-        if self.user_name_entry.get() == os.getenv("USER_NAME") and self.password_entry.get() == os.getenv("PASSWORD"):
+        if self.user_name_entry.get() == "admin" and self.password_entry.get() == "admin123":
             messagebox.showinfo(title="LOGIN SUCCESSFULL", message="         WELCOME TO PASSWORD MANAGER       ")
             self.window.destroy()
             self.success = True
