@@ -153,7 +153,9 @@ def edit_info():
 
             website_entry.insert(0, edit_website)
             email_username_entry.insert(0, edit_email)
-            password_entry.insert(0, edit_password_dec) 
+            password_entry.insert(0, edit_password_dec)
+    else:
+        messagebox.showerror(title="Error", message="Website Entry Field is Empty!!!")
 
     
 # ---------------------------- DELETE DETAILS ------------------------------- #
@@ -184,6 +186,8 @@ def delete_info():
                 json.dump(key_delete_data, key_file, indent=4)
 
             messagebox.showinfo(title="Success", message=f"Details for {delete_website} deleted successfully!!!")
+    else:
+        messagebox.showerror(title="Error", message="Website Entry Field is Empty!!!")
         
 
 
