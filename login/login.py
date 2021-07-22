@@ -70,6 +70,7 @@ class LoginPasswordManager:
                     
         self.login_button.bind("<Enter>", self.on_entera) 
         self.login_button.bind("<Leave>", self.on_leavea)
+        self.window.bind("<Return>", self.login_check)
 
         self.login_button.place(x=100,y=375)
         self.window.mainloop()
@@ -78,7 +79,7 @@ class LoginPasswordManager:
     
     
     #Login check authentication
-    def login_check(self):
+    def login_check(self, event=None):
         if self.user_name_entry.get() == "admin" and self.password_entry.get() == "admin123":
             messagebox.showinfo(title="LOGIN SUCCESSFULL", message="         WELCOME TO PASSWORD MANAGER       ")
             self.window.destroy()
